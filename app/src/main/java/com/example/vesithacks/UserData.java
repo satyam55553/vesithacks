@@ -1,16 +1,17 @@
 package com.example.vesithacks;
 
 public class UserData {
-    String mUserName,mPassword,mEmail,mRole;
-    UserData(String userName, String password, String email,String role){
-        mUserName=userName;
-        mPassword=password;
-        mEmail=email;
-        mRole=role;
+    String email,role;
+    boolean superAdmin;
+    public  UserData(){}
+    public UserData(String email,String role,boolean superAdmin){
+        this.email=email;
+        this.role=role;
+        this.superAdmin=superAdmin;
     }
-    public String getUserName(){return  mUserName;}
-    public String getPassword(){return mPassword;}
-    public String getEmail(){return mEmail;}
-    public String getRole(){return  mRole;}
+
+    public String getEmail(){return email;}
+    public String getRole(){return  role;}
+    public boolean getSuperAdmin (){return superAdmin;}
 }
 

@@ -5,21 +5,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.myViewHolder> {
     private AdminAdapter.RecyclerViewClickListener listener;
+    private final List<String> list;
 
-    private final String[] data;
-
-    public AdminAdapter(String[] data, AdminAdapter.RecyclerViewClickListener listener) {
-        this.data=data;
-        this.listener = listener;
-    }
-
-    public AdminAdapter(String[] data) {
-        this.data = data;
+    public AdminAdapter(List<String> list,AdminAdapter.RecyclerViewClickListener listener){
+        this.list=list;
+        this.listener=listener;
     }
 
 
@@ -33,14 +30,14 @@ public class AdminAdapter extends RecyclerView.Adapter<AdminAdapter.myViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-        String name = data[position];
+        String name=list.get(position);
         holder.datatxt.setText(name);
     }
 
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return list.size();
     }
 
     public interface RecyclerViewClickListener {

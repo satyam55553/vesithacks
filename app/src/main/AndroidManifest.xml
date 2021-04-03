@@ -24,6 +24,7 @@
         <activity android:name=".AdminEditorActivity" />
         <activity android:name=".ActivitySociety" />
         <activity android:name=".ActivityEventAdder"/>
+        <activity android:name=".ActivitySocieties"/>
     </application>
 
 </manifest>

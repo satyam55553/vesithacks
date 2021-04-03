@@ -1,13 +1,12 @@
 package com.example.vesithacks;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,77 +25,47 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AdminEditorActivity extends AppCompatActivity {
+public class ActivitySocieties extends AppCompatActivity {
     private AdminAdapter.RecyclerViewClickListener listener;
-    String parameter = "";
-    TextView title;
     private List<String> list;
     private  AdminAdapter adminAdapter;
     Button addBtn;
+    RecyclerView recyclerView;
     private FirebaseDatabase mFirebasedatabase;
     private DatabaseReference mMessagesDatabaseReference;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_editor);
+        setContentView(R.layout.activity_societies);
         mFirebasedatabase = FirebaseDatabase.getInstance();
-
-        addBtn = (Button) findViewById(R.id.button_admine_add);
-        title = (TextView) findViewById(R.id.text_admine_name);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_admin_editor);
+        mMessagesDatabaseReference = mFirebasedatabase.getReference().child("societies");
+        addBtn = (Button) findViewById(R.id.button_society_add);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_societies);
         setOnClickListener();
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            parameter = extras.getString("parameter");
-            title.setText("" + parameter);
-            mMessagesDatabaseReference = mFirebasedatabase.getReference().child(parameter);
-        }
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 alertDialogDemo();
             }
         });
-        //Read from database
-        list = new ArrayList<>();
-        final DatabaseReference nm = FirebaseDatabase.getInstance().getReference(parameter);
-        nm.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot snap : snapshot.getChildren()) {
-                        String l = (String) snap.getValue();
-                        list.add(l);
-                    }
-                    adminAdapter = new AdminAdapter(list,listener);
-                    recyclerView.setAdapter(adminAdapter);
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AdminEditorActivity.this,
-                        "Error Fetching Events", Toast.LENGTH_SHORT).show();
-            }
-        });
+        readDB();
     }
-
     private void setOnClickListener() {
         listener = new AdminAdapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
-
+                startActivity(new Intent(ActivitySocieties.this,
+                        ActivitySociety.class));
             }
         };
     }
-
     void alertDialogDemo() {
         // Create an alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("ADD " + parameter);
+        builder.setTitle("ADD SOCIETY");
 
         // set the custom layout
         final View customLayout
@@ -116,7 +85,7 @@ public class AdminEditorActivity extends AppCompatActivity {
                         if(!TextUtils.isEmpty(fieldName)){
                             addFieldtoDB(fieldName);
                         }else{
-                            editText.setError("Enter name");
+                            editText.setError("Enter society's name");
                         }
                     }
                 });
@@ -136,7 +105,33 @@ public class AdminEditorActivity extends AppCompatActivity {
 
     public void addFieldtoDB(String data) {
         mMessagesDatabaseReference.push().setValue(data);
-        Toast.makeText(AdminEditorActivity.this,
-                "Event Added :)", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ActivitySocieties.this,
+                "Society Added :)", Toast.LENGTH_SHORT).show();
+        list.clear();
+        readDB();
+    }
+    public void readDB(){
+        //Read from database
+        list = new ArrayList<>();
+        final DatabaseReference nm = FirebaseDatabase.getInstance().getReference("societies");
+        nm.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot snap : snapshot.getChildren()) {
+                        String l = (String) snap.getValue();
+                        list.add(l);
+                    }
+                    adminAdapter = new AdminAdapter(list,listener);
+                    recyclerView.setAdapter(adminAdapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ActivitySocieties.this,
+                        "Error Fetching Events", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -11,4 +11,9 @@
         app:showAsAction="never"
         android:icon="@android:drawable/ic_menu_myplaces"
         android:title="Event Adder" />
+    <item
+        android:id="@+id/sign_out_menu"
+        app:showAsAction="never"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Sign Out" />
 </menu>

@@ -21,7 +21,8 @@ public class AdminActivity extends AppCompatActivity {
         txtSociety.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(AdminActivity.this,ActivitySociety.class);
+                Intent intent=new Intent(AdminActivity.this,ActivitySocieties.class);
+                intent.putExtra("parameter","Societies");
                 startActivity(intent);
             }
         });
@@ -29,6 +30,7 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(AdminActivity.this,AdminEditorActivity.class);
+                intent.putExtra("parameter","Departments");
                 startActivity(intent);
             }
         });
@@ -36,8 +38,17 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(AdminActivity.this,AdminEditorActivity.class);
+                intent.putExtra("parameter","Committees");
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(
+                AdminActivity.this,MainActivity.class
+        ));
     }
 }

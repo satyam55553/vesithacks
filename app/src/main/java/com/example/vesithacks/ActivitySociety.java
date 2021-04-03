@@ -20,7 +20,7 @@ public class ActivitySociety extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_society_editor);
         setOnClickListener();
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(new AdminAdapter(names, listener));
+//        recyclerView.setAdapter(new AdminAdapter(names, listener));
     }
 
     private void setOnClickListener() {
