@@ -25,6 +25,7 @@
         <activity android:name=".ActivitySociety" />
         <activity android:name=".ActivityEventAdder"/>
         <activity android:name=".ActivitySocieties"/>
+        <activity android:name=".ActivityHeads"/>
     </application>
 
 </manifest>
