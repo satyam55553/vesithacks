@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, AdminEditorActivity.class);
             startActivity(intent);
             return true;
+        }else if (item.getItemId() == R.id.event_adder_menu) {
+            Intent intent = new Intent(MainActivity.this, ActivityEventAdder.class);
+            startActivity(intent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

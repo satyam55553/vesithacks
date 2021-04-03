@@ -5,29 +5,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class myAdapter extends RecyclerView.Adapter<myAdapter.myViewHolder> {
     private RecyclerViewClickListener listener;
+    private final List<EventData> listEvents;
 
-    private String[] eventnamedata, organisernamedata, regdatedata, eventdatedata;
-
-    public myAdapter(String[] eventnamedata,
-                     String[] organisernamedata,
-                     String[] regdatedata,
-                     String[] eventdatedata,
-                     RecyclerViewClickListener listener) {
-        this.eventnamedata = eventnamedata;
-        this.organisernamedata = organisernamedata;
-        this.regdatedata = regdatedata;
-        this.eventdatedata = eventdatedata;
+    public myAdapter(List<EventData> listEvents, RecyclerViewClickListener listener) {
+        this.listEvents = listEvents;
         this.listener = listener;
     }
 
-    public myAdapter(String[] data) {
-        this.eventnamedata = data;
+    public myAdapter(List<EventData> listEvents) {
+        this.listEvents = listEvents;
     }
 
     @NonNull
@@ -40,16 +35,16 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.myViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-        String name = eventnamedata[position];
-        holder.eventName.setText(name);
-        holder.organiserName.setText(organisernamedata[position]);
-        holder.regDate.setText(regdatedata[position]);
-        holder.eventDate.setText(eventdatedata[position]);
+        EventData e = listEvents.get(position);
+        holder.eventName.setText(e.getEventName());
+        holder.organiserName.setText(e.getOrganiser());
+        holder.regDate.setText(e.getReg());
+        holder.eventDate.setText(e.getEventDate());
     }
 
     @Override
     public int getItemCount() {
-        return eventnamedata.length;
+        return listEvents.size();
     }
 
     public interface RecyclerViewClickListener {

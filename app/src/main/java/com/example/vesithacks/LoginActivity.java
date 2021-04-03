@@ -69,23 +69,33 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                if (firebaseUser != null) {
+                    Toast.makeText(LoginActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
+                    if (role.equals("admin")) {
+                        Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+                        startActivity(intent);
+                    } else if (role.equals("student")) {
+                        Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(LoginActivity.this, "PLEASE LOGIN", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        mAuth.addAuthStateListener(mAuthStateListener);
-////        mFirebaseAuth.getCurrentUser();
-//    }
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if(currentUser != null){
-//            reload();
-//        }
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
+//        mFirebaseAuth.getCurrentUser();
+    }
 
     private void signIn(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)

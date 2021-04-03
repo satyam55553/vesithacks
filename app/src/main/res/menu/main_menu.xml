@@ -6,5 +6,9 @@
         app:showAsAction="never"
         android:icon="@android:drawable/ic_menu_myplaces"
         android:title="Admin Editor" />
-
+    <item
+        android:id="@+id/event_adder_menu"
+        app:showAsAction="never"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Event Adder" />
 </menu>

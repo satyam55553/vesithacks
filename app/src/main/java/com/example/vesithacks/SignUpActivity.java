@@ -72,6 +72,25 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                if (firebaseUser != null) {
+                    Toast.makeText(SignUpActivity.this, "You are logged in", Toast.LENGTH_SHORT).show();
+                    if (role.equals("admin")) {
+                        Intent intent = new Intent(SignUpActivity.this, AdminActivity.class);
+                        startActivity(intent);
+                    } else if (role.equals("student")) {
+                        Intent intent = new Intent(SignUpActivity.this, DashboardActivity.class);
+                        startActivity(intent);
+                    }
+                } else {
+                    Toast.makeText(SignUpActivity.this, "PLEASE SIGN UP", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
     }
     private void signUp(String email,String password){
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -98,5 +117,11 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
     }
 }
